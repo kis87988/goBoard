@@ -1,0 +1,175 @@
+.h1 {
+    text-align: center;
+}
+
+.montFont {
+    font-family: 'Montserrat', sans-serif;
+}
+
+.cursiveFont {
+    font-family: 'Cedarville Cursive', cursive;
+    font-size: 36px;
+}
+
+.outer {
+    position: absolute;
+}
+.notePos {
+    display: block;
+    width: 175px;
+    height: 100px;
+    padding: 10px;
+    border-radius: 2px 2px 2px 2px;
+    box-shadow: 12px 12px 20px -10px rgba(0,0,0,0.65);
+    word-wrap: break-word;
+    overflow: hidden;
+}
+
+.notePos:hover {
+    overflow-y: scroll;
+}
+
+.notePosNext {
+    position: absolute;
+    top: 20px;
+    left: 45%;
+    z-index: 1;
+}
+/*   Remove Highlight */
+input:focus, select:focus,
+textarea:focus, button:focus, p:focus {
+    outline: none;
+}
+
+/*
+.
+.
+.
+*/
+
+div.form {
+    display: block;
+    text-align: center;
+}
+
+form {
+    margin-left: auto;
+    margin-right: auto;
+    display: inline-block;
+    text-align: left;
+}
+.search {
+    padding: 8px;
+    width: 500px;
+    background: rgba(50, 50, 50, 0.2);
+    border: 0px solid #dbdbdb;
+}
+.button {
+    position: relative;
+    padding: 8px 15px;
+    left: -5px;
+    background-color: #4285F4;
+    color:#fafafa;
+    border: none;
+}
+.button:hover,
+.button.hover {
+    background-color: #3b77db;
+    text-shadow: -1px 1px #274f92;
+}
+.button:active,
+.button.active {
+    background-color: #346ac3;
+    text-shadow: -1px 1px #132749;
+}
+
+/* Animation Note Cards */
+@keyframes noteAnimation {
+  0% {
+    margin-left: 100px;
+  }
+  100% {
+    margin-left: 0px;
+  } 
+}
+
+.note-animation {
+  animation: noteAnimation 0.5s;
+}
+
+/* Animation goBoard title */
+@keyframes topAnimation {
+  0% {
+    margin-top: -150px;
+  }
+  100% {
+
+    margin-top: 0px;
+  } 
+}
+
+.top-animation {
+  animation: topAnimation 0.8s;
+}
+
+.delete {
+    float: right;
+    border: none;
+    color: red;
+    background: rgba(0,0,0,0);
+    text-shadow: 1px 1px #132749;
+}
+
+/*  Chat box */
+#container {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    pointer-events: none;
+    border: 1px solid #999;
+    background: white;
+}
+
+.chatbox {
+    display: inline-block;
+    vertical-align: bottom;
+    position: relative;
+    margin: 15px 5px;
+    pointer-events: auto;
+    overflow: auto;
+    width: 200px;
+    max-height: 200px;
+    max-width: 200px;
+    word-wrap: break-word;
+}
+
+.title {
+    padding: 0.5em;
+    background-color: #4285F4;
+    color: white;
+}
+
+.textbox {
+    position: fixed;
+    width: 200px;
+    bottom: 5px;
+    right: 0;
+}
+
+.text {
+    padding: 10px;
+}
+
+.background {
+    background-image: url('/src/images/whiteboard.jpg');
+    width: 1000px;
+    height: 500px;
+    background-size: 100% 100%;
+    border: 1px solid lightgray;
+    background-repeat: no-repeat;
+
+    resize: both;
+    overflow: auto;
+
+    z-index: 1;
+}
