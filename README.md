@@ -11,5 +11,5 @@ Start the project:
 
 For websocket server:
 	1) go to server folder under goBoard folder
-	2) npm instll
+	2) npm install
 	3) node server.js &
