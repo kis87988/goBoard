@@ -26,6 +26,8 @@ export class HomePageComponent implements AfterViewChecked, OnDestroy {
     private x: number;
     private y: number;
     private rect: any;
+    private database = firebase.database().ref();
+    private userId = firebase.auth().currentUser.uid;
 
     myNoteList: FirebaseListObservable<any>;
     items: FirebaseListObservable<any>;
@@ -66,7 +68,9 @@ export class HomePageComponent implements AfterViewChecked, OnDestroy {
     }
   
     sendNoteToFirebase(note: Note) {
-        this.myNoteList.push({ desc: note.desc, bgcolor: note.bgcolor, x: note.x , y: note.y });
+        firebase.database().ref('users/' + this.userId).set({
+            note : Note
+        });
     }
 
     sendMessage(theirMessage: string) {
@@ -114,13 +118,6 @@ export class HomePageComponent implements AfterViewChecked, OnDestroy {
     removeNote(note: Note) {
         this.notes.splice(this.notes.indexOf(note), 1);
     }
-
-
-    var  = firebase.auth().currentUser.uid;
-    return firebase.database().ref('/users/' + userId).once('value').then(function(snapshot) {
-        var username = snapshot.val().username;
-     // ...
-    });
 
     ngOnInit() {
         this.connection = this.noteService.getNotes().subscribe(notes => {
