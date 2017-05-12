@@ -7,6 +7,7 @@ import { AngularFire, FirebaseListObservable } from 'angularfire2';
 import { AppComponent } from '../app.component';
 import { HomePageService } from './home-page.service';
 
+
 @Component({
     selector: 'app-home-page',
     templateUrl: './home-page.component.html',
@@ -113,6 +114,13 @@ export class HomePageComponent implements AfterViewChecked, OnDestroy {
     removeNote(note: Note) {
         this.notes.splice(this.notes.indexOf(note), 1);
     }
+
+
+    var  = firebase.auth().currentUser.uid;
+    return firebase.database().ref('/users/' + userId).once('value').then(function(snapshot) {
+        var username = snapshot.val().username;
+     // ...
+    });
 
     ngOnInit() {
         this.connection = this.noteService.getNotes().subscribe(notes => {
