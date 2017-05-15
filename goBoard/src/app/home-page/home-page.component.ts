@@ -7,7 +7,6 @@ import { AngularFire, FirebaseListObservable } from 'angularfire2';
 import { AppComponent } from '../app.component';
 import { HomePageService } from './home-page.service';
 
-
 @Component({
     selector: 'app-home-page',
     templateUrl: './home-page.component.html',
@@ -26,12 +25,11 @@ export class HomePageComponent implements AfterViewChecked, OnDestroy {
     private x: number;
     private y: number;
     private rect: any;
-    private database = firebase.database().ref();
-    private userId = firebase.auth().currentUser.uid;
 
     myNoteList: FirebaseListObservable<any>;
     items: FirebaseListObservable<any>;
     name: string;
+    email: String;
     msgVal: string;
 
     connection;
@@ -47,7 +45,9 @@ export class HomePageComponent implements AfterViewChecked, OnDestroy {
         private noteService: HomePageService) {
         this.items = af.database.list('/messages');
         this.name = ac.user_displayName;
-        this.myNoteList = af.database.list('/notes');
+        this.email = "test";
+        console.log(ac);
+        this.myNoteList = af.database.list('users/' + this.email + '/notes');
     }
 
     @ViewChild('scrollMe') private myScrollContainer: ElementRef;
@@ -68,9 +68,7 @@ export class HomePageComponent implements AfterViewChecked, OnDestroy {
     }
   
     sendNoteToFirebase(note: Note) {
-        firebase.database().ref('users/' + this.userId).set({
-            note : Note
-        });
+        this.myNoteList.push({ desc: note.desc, bgcolor: note.bgcolor, x: note.x , y: note.y });
     }
 
     sendMessage(theirMessage: string) {
