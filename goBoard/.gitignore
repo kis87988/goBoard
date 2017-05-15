@@ -34,6 +34,7 @@ vscode/
 npm-debug.log
 testem.log
 /typings
+firebase-debug.log
 
 # e2e
 /e2e/*.js
