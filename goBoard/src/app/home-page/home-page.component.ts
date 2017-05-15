@@ -45,8 +45,7 @@ export class HomePageComponent implements AfterViewChecked, OnDestroy {
         private noteService: HomePageService) {
         this.items = af.database.list('/messages');
         this.name = ac.user_displayName;
-        this.email = "test";
-        console.log(ac);
+        this.email = ac.user_email;
         this.myNoteList = af.database.list('users/' + this.email + '/notes');
     }
 
