@@ -11,12 +11,12 @@ import {} from 'jasmine';
 
 
 export class AppComponent {
-  
+
   public isLoggedIn: Boolean;
   public user_displayName: string;
   private user_email: String;
   private debug = false; // debug switch
-  
+
   constructor (private authService: AuthService, private router: Router) {
     this.authService.af.auth.subscribe(
       (auth) => {

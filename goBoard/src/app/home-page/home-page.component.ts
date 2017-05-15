@@ -21,7 +21,7 @@ export class HomePageComponent implements AfterViewChecked, OnDestroy {
         '#B2EBF2', '#B2DFDB', '#C8E6C9', '#F0F4C3', '#FFECB3', '#FFE0B2', '#FFCCBC'];
     randomNumber;
     rcolor;
-    private debug = false;        // debug switch
+    private debug = true;        // debug switch
     private x: number;
     private y: number;
     private rect: any;
@@ -63,7 +63,7 @@ export class HomePageComponent implements AfterViewChecked, OnDestroy {
         this.authService.logout();
         this.router.navigate(['login']);
     }
-  
+
     sendNoteToFirebase(note: Note) {
         this.myNoteList.push({ desc: note.desc, bgcolor: note.bgcolor, x: note.x , y: note.y });
     }
@@ -74,6 +74,16 @@ export class HomePageComponent implements AfterViewChecked, OnDestroy {
         }
         this.items.push({ message: theirMessage, name: this.name });
         this.msgVal = '';
+    }
+
+    printNote() {
+        this.af.database.list('/notes', { preserveSnapshot: true})
+        .subscribe(snapshot =>{
+                snapshot.forEach(snapshot =>{
+                console.log(snapshot.key);
+                return snapshot.key;
+                });
+        })
     }
 
     onDrag(note: Note) {
@@ -87,6 +97,8 @@ export class HomePageComponent implements AfterViewChecked, OnDestroy {
                 console.log(' noteXY:', note.getX(), note.getY());
             }, 100);
         }
+        //this.myNoteList.push({ desc: note.desc, bgcolor: note.bgcolor, x: note.x , y: note.y }); // this will update coordinates with new ID everytime
+        this.printNote();
     }
 
     onPress(desc: string) {
@@ -99,13 +111,15 @@ export class HomePageComponent implements AfterViewChecked, OnDestroy {
             this.notes.push(note);
             this.noteService.sendNote(this.notes);
             this.sendNoteToFirebase(note);
-          
+
             if (this.debug) {// Debug
                 console.log('inside onPress', this.notes);
                 setTimeout(() => {
                     console.log('note id', document.getElementById('note').getBoundingClientRect());
+
                 }, 1000);
                 console.log(JSON.stringify(desc));
+
             }
         }
     }
