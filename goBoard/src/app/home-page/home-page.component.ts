@@ -29,7 +29,7 @@ export class HomePageComponent implements AfterViewChecked, OnDestroy {
     myNoteList: FirebaseListObservable<any>;
     items: FirebaseListObservable<any>;
     name: string;
-    email: String;
+    email: string;
     msgVal: string;
 
     connection;
@@ -45,8 +45,8 @@ export class HomePageComponent implements AfterViewChecked, OnDestroy {
         private noteService: HomePageService) {
         this.items = af.database.list('/messages');
         this.name = ac.user_displayName;
-        this.email = ac.user_email;
-        this.myNoteList = af.database.list('users/' + this.email + '/notes');
+        console.log(ac.user_email.toString());
+        this.myNoteList = af.database.list('users/' + "test" + '/notes');
     }
 
     @ViewChild('scrollMe') private myScrollContainer: ElementRef;
