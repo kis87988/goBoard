@@ -16,15 +16,19 @@ node_modules/
 .c9/
 *.launch
 .settings/
-*.sublime-workspace
 
 # IDE - VSCode
 .vscode/*
+.vscode/
 vscode/
 !.vscode/settings.json
 !.vscode/tasks.json
 !.vscode/launch.json
 !.vscode/extensions.json
+
+# IDE - Sublime Text
+*.sublime-project
+*.sublime-workspace
 
 # misc
 /.sass-cache
