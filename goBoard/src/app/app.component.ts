@@ -13,7 +13,8 @@ import {} from 'jasmine';
 export class AppComponent {
   public isLoggedIn: Boolean;
   public user_displayName: string;
-  public user_email: String;
+  public user_email: string;
+  public user_ID: string;
   private debug = false; // debug switch
 
   constructor (private authService: AuthService, private router: Router) {
@@ -30,6 +31,7 @@ export class AppComponent {
           this.user_displayName = auth.displayName;
           if (this.debug) debugger;
           this.user_email = auth.email;
+          this.user_ID = auth.email.split('@')[0];
           this.router.navigate(['']);
         }
       }

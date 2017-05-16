@@ -29,9 +29,8 @@ export class HomePageComponent implements AfterViewChecked, OnDestroy {
     items: FirebaseListObservable<any>;
     name: string;
     email: string;
+    userID: string;
     msgVal: string;
-
-    connection;
 
     private chatIsHidden = false;
 
@@ -42,10 +41,11 @@ export class HomePageComponent implements AfterViewChecked, OnDestroy {
         private router: Router,
         private _renderer: Renderer,
         private _el: ElementRef) {
-        this.items = af.list('/messages');
         this.name = ac.user_displayName;
-        console.log(ac.user_email.toString());
-        this.myNoteList = af.list('users/' + "test" + '/notes');
+        this.email = ac.user_email;
+        this.userID = ac.user_ID;
+        this.items = af.list('/messages');
+        this.myNoteList = af.list('users/' + this.userID.toString() + '/notes');
     }
 
     @ViewChild('scrollMe') private myScrollContainer: ElementRef;
@@ -113,7 +113,7 @@ export class HomePageComponent implements AfterViewChecked, OnDestroy {
         this.notes.splice(this.notes.indexOf(note), 1);
     }
 
-    ngOnInit() {
+    ngOnInit(){
     }
 
     ngOnDestroy() {
