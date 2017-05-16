@@ -11,14 +11,14 @@ import {} from 'jasmine';
 
 
 export class AppComponent {
-  
   public isLoggedIn: Boolean;
   public user_displayName: string;
-  private user_email: String;
+  public user_email: string;
+  public user_ID: string;
   private debug = false; // debug switch
-  
+
   constructor (private authService: AuthService, private router: Router) {
-    this.authService.af.auth.subscribe(
+    this.authService.user.subscribe(
       (auth) => {
         if (auth == null) {
           this.isLoggedIn = false;
@@ -28,9 +28,10 @@ export class AppComponent {
         } else {
           this.isLoggedIn = true;
           if (this.debug) debugger;
-          this.user_displayName = auth.google.displayName;
+          this.user_displayName = auth.displayName;
           if (this.debug) debugger;
-          this.user_email = auth.google.email;
+          this.user_email = auth.email;
+          this.user_ID = auth.email.split('@')[0];
           this.router.navigate(['']);
         }
       }

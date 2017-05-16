@@ -6,24 +6,22 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { AppComponent } from './app.component';
 import { Draggable } from 'ng2draggable/draggable.directive';
-import { AuthService } from './providers/auth.service';  
+import { AuthService } from './providers/auth.service';
+import { AngularFireModule } from 'angularfire2';
+import { AngularFireDatabaseModule, AngularFireDatabase, FirebaseListObservable } from 'angularfire2/database';
+import { AngularFireAuthModule, AngularFireAuth } from 'angularfire2/auth';
 
-/* Firebase */
-import { 
-  AngularFireModule, 
-  AuthMethods, 
-  AuthProviders 
-} from "angularfire2";
 
 import { LoginPageComponent } from './login-page/login-page.component';
 import { HomePageComponent } from './home-page/home-page.component';
 
 const firebaseConfig = {
-  apiKey: "AIzaSyCtEFa6iU7OIn73IlolN-PF4kUF6tuCOy8",
-  authDomain: "goboard-9399d.firebaseapp.com",
-  databaseURL: "https://goboard-9399d.firebaseio.com",
-  storageBucket: "goboard-9399d.appspot.com",
-  messagingSenderId: "351423815295"
+  apiKey: "AIzaSyBDaugZSSWbTHR0cya23ci_McJOONHyggU",
+  authDomain: "goboard-9da40.firebaseapp.com",
+  databaseURL: "https://goboard-9da40.firebaseio.com",
+  projectId: "goboard-9da40",
+  storageBucket: "goboard-9da40.appspot.com",
+  messagingSenderId: "723651337507"
 };
 
 const routes: Routes = [
@@ -43,6 +41,8 @@ const routes: Routes = [
     FormsModule,
     HttpModule,
     AngularFireModule.initializeApp(firebaseConfig),
+    AngularFireDatabaseModule,
+    AngularFireAuthModule,
     RouterModule.forRoot(routes)
   ],
   providers: [AuthService],
