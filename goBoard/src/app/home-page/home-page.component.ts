@@ -14,8 +14,6 @@ import { AppComponent } from '../app.component';
 })
 
 export class HomePageComponent implements AfterViewChecked, OnDestroy {
-
-    public notes: Array<Note> = [];
     colorlist = ['#FFCDD2', '#F8BBD0', '#E1BEE7', '#D1C4E9', '#C5CAE9', '#BBDEFB',
         '#B2EBF2', '#B2DFDB', '#C8E6C9', '#F0F4C3', '#FFECB3', '#FFE0B2', '#FFCCBC'];
     randomNumber;
@@ -66,7 +64,7 @@ export class HomePageComponent implements AfterViewChecked, OnDestroy {
     }
 
     sendNoteToFirebase(note: Note) {
-        this.myNoteList.push({ desc: note.desc, bgcolor: note.bgcolor, x: note.x , y: note.y });
+        this.myNoteList.push(note);
     }
 
     sendMessage(theirMessage: string) {
@@ -97,10 +95,10 @@ export class HomePageComponent implements AfterViewChecked, OnDestroy {
             this.x = 0;
             this.y = 0;
             let note = new Note(desc, this.rcolor, this.x, this.y);
-            this.notes.push(note);
-            this.sendNoteToFirebase(note);
+            note.setKey(this.myNoteList.push(note).key);
+            this.myNoteList.update(note.key.toString(), note);
+            console.log(note);
             if (this.debug) {// Debug
-                console.log('inside onPress', this.notes);
                 setTimeout(() => {
                     console.log('note id', document.getElementById('note').getBoundingClientRect());
                 }, 1000);
@@ -110,7 +108,7 @@ export class HomePageComponent implements AfterViewChecked, OnDestroy {
     }
 
     removeNote(note: Note) {
-        this.notes.splice(this.notes.indexOf(note), 1);
+        this.myNoteList.remove(note.key);
     }
 
     ngOnInit(){
