@@ -75,15 +75,15 @@ export class HomePageComponent implements AfterViewChecked, OnDestroy {
         this.msgVal = '';
     }
 
-    printNote() {
-        this.af.database.list('/notes', { preserveSnapshot: true})
-        .subscribe(snapshot =>{
-                snapshot.forEach(snapshot =>{
-                console.log(snapshot.key);
-                return snapshot.key;
-                });
-        })
-    }
+    // printNote() {
+    //     this.af.database.list('/notes', { preserveSnapshot: true})
+    //     .subscribe(snapshot =>{
+    //             snapshot.forEach(snapshot =>{
+    //             console.log(snapshot.key);
+    //             return snapshot.key;
+    //             });
+    //     })
+    // }
 
     onDrag(note: Note) {
         console.log();
@@ -99,7 +99,7 @@ export class HomePageComponent implements AfterViewChecked, OnDestroy {
             }, 100);
         }
         //this.myNoteList.push({ desc: note.desc, bgcolor: note.bgcolor, x: note.x , y: note.y }); // this will update coordinates with new ID everytime
-        this.printNote();
+        //this.printNote();
     }
 
     onPress(desc: string) {
