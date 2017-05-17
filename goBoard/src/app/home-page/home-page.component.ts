@@ -75,6 +75,16 @@ export class HomePageComponent implements AfterViewChecked, OnDestroy {
         this.msgVal = '';
     }
 
+    printNote() {
+        this.af.database.list('/notes', { preserveSnapshot: true})
+        .subscribe(snapshot =>{
+                snapshot.forEach(snapshot =>{
+                console.log(snapshot.key);
+                return snapshot.key;
+                });
+        })
+    }
+
     onDrag(note: Note) {
         console.log();
         this.rect = document.getElementById('note').getBoundingClientRect();
@@ -88,6 +98,8 @@ export class HomePageComponent implements AfterViewChecked, OnDestroy {
                 console.log(' realXY:', this.x, this.y);
             }, 100);
         }
+        //this.myNoteList.push({ desc: note.desc, bgcolor: note.bgcolor, x: note.x , y: note.y }); // this will update coordinates with new ID everytime
+        this.printNote();
     }
 
     onPress(desc: string) {
@@ -103,8 +115,10 @@ export class HomePageComponent implements AfterViewChecked, OnDestroy {
             if (this.debug) {// Debug
                 setTimeout(() => {
                     console.log('note id', document.getElementById('note').getBoundingClientRect());
+
                 }, 1000);
                 console.log(JSON.stringify(desc));
+
             }
         }
     }
