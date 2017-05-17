@@ -18,7 +18,7 @@ export class HomePageComponent implements AfterViewChecked, OnDestroy {
         '#B2EBF2', '#B2DFDB', '#C8E6C9', '#F0F4C3', '#FFECB3', '#FFE0B2', '#FFCCBC'];
     randomNumber;
     rcolor;
-    private debug = false;        // debug switch
+    private debug = true;        // debug switch
     private x: number;
     private y: number;
     private rect: any;
@@ -76,14 +76,16 @@ export class HomePageComponent implements AfterViewChecked, OnDestroy {
     }
 
     onDrag(note: Note) {
+        console.log();
         this.rect = document.getElementById('note').getBoundingClientRect();
         this.x = this.rect.left;
         this.y = this.rect.top;
-        note.setPosition(this.x, this.y);
+        note.x = this.x;
+        note.y = this.y;
+        this.myNoteList.update(note.key.toString(), note);
         if (this.debug) {// Debug
             setTimeout(() => {
                 console.log(' realXY:', this.x, this.y);
-                console.log(' noteXY:', note.getX(), note.getY());
             }, 100);
         }
     }
@@ -97,7 +99,7 @@ export class HomePageComponent implements AfterViewChecked, OnDestroy {
             let note = new Note(desc, this.rcolor, this.x, this.y);
             note.setKey(this.myNoteList.push(note).key);
             this.myNoteList.update(note.key.toString(), note);
-            console.log(note);
+            this.onDrag(note);
             if (this.debug) {// Debug
                 setTimeout(() => {
                     console.log('note id', document.getElementById('note').getBoundingClientRect());

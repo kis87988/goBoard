@@ -10,7 +10,7 @@ export class Note {
         this.x = x;
         this.y = y;
     }
-    setPosition(x: number, y: number) {
+    public setPosition(x: number, y: number) {
       this.x = x;
       this.y = y;
     }
