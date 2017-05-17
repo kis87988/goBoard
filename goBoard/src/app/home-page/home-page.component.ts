@@ -3,20 +3,17 @@ import { OnDestroy } from '@angular/core';
 import { Note } from './note';
 import { AuthService } from '../providers/auth.service';
 import { Router } from '@angular/router';
-import { AngularFire, FirebaseListObservable } from 'angularfire2';
+import { AngularFireModule } from 'angularfire2';
+import { AngularFireDatabaseModule, AngularFireDatabase, FirebaseListObservable } from 'angularfire2/database';
 import { AppComponent } from '../app.component';
-import { HomePageService } from './home-page.service';
 
 @Component({
     selector: 'app-home-page',
     templateUrl: './home-page.component.html',
     styleUrls: ['./home-page.component.css'],
-    providers: [HomePageService]
 })
 
 export class HomePageComponent implements AfterViewChecked, OnDestroy {
-
-    public notes: Array<Note> = [];
     colorlist = ['#FFCDD2', '#F8BBD0', '#E1BEE7', '#D1C4E9', '#C5CAE9', '#BBDEFB',
         '#B2EBF2', '#B2DFDB', '#C8E6C9', '#F0F4C3', '#FFECB3', '#FFE0B2', '#FFCCBC'];
     randomNumber;
@@ -29,22 +26,24 @@ export class HomePageComponent implements AfterViewChecked, OnDestroy {
     myNoteList: FirebaseListObservable<any>;
     items: FirebaseListObservable<any>;
     name: string;
+    email: string;
+    userID: string;
     msgVal: string;
-
-    connection;
 
     private chatIsHidden = false;
 
-    constructor(public af: AngularFire,
+    constructor(
+        public af: AngularFireDatabase,
         public ac: AppComponent,
         private authService: AuthService,
         private router: Router,
         private _renderer: Renderer,
-        private _el: ElementRef,
-        private noteService: HomePageService) {
-        this.items = af.database.list('/messages');
+        private _el: ElementRef) {
         this.name = ac.user_displayName;
-        this.myNoteList = af.database.list('/notes');
+        this.email = ac.user_email;
+        this.userID = ac.user_ID;
+        this.items = af.list('/messages');
+        this.myNoteList = af.list('users/' + this.userID.toString() + '/notes');
     }
 
     @ViewChild('scrollMe') private myScrollContainer: ElementRef;
@@ -65,7 +64,7 @@ export class HomePageComponent implements AfterViewChecked, OnDestroy {
     }
 
     sendNoteToFirebase(note: Note) {
-        this.myNoteList.push({ desc: note.desc, bgcolor: note.bgcolor, x: note.x , y: note.y });
+        this.myNoteList.push(note);
     }
 
     sendMessage(theirMessage: string) {
@@ -108,12 +107,10 @@ export class HomePageComponent implements AfterViewChecked, OnDestroy {
             this.x = 0;
             this.y = 0;
             let note = new Note(desc, this.rcolor, this.x, this.y);
-            this.notes.push(note);
-            this.noteService.sendNote(this.notes);
-            this.sendNoteToFirebase(note);
-
+            note.setKey(this.myNoteList.push(note).key);
+            this.myNoteList.update(note.key.toString(), note);
+            console.log(note);
             if (this.debug) {// Debug
-                console.log('inside onPress', this.notes);
                 setTimeout(() => {
                     console.log('note id', document.getElementById('note').getBoundingClientRect());
 
@@ -125,23 +122,13 @@ export class HomePageComponent implements AfterViewChecked, OnDestroy {
     }
 
     removeNote(note: Note) {
-        this.notes.splice(this.notes.indexOf(note), 1);
+        this.myNoteList.remove(note.key);
     }
 
-    ngOnInit() {
-        this.connection = this.noteService.getNotes().subscribe(notes => {
-            let len = this.notes.length;
-            if (notes[len] != null)
-                this.notes.push(notes[len]);
-            if (this.debug) { // Debug
-                console.log('inside connection notes:', notes);
-                console.log('outside notes:', this.notes);
-            }
-        });
+    ngOnInit(){
     }
 
     ngOnDestroy() {
-        this.connection.unsubscribe();
     }
 
 }
