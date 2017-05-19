@@ -23,7 +23,7 @@ export class HomePageComponent implements AfterViewChecked, OnDestroy {
     private y: number;
     private rect: any;
 
-    myNoteList: FirebaseListObservable<any>;
+    myNoteList: FirebaseListObservable<Note[]>;
     items: FirebaseListObservable<any>;
     name: string;
     email: string;
@@ -75,50 +75,37 @@ export class HomePageComponent implements AfterViewChecked, OnDestroy {
         this.msgVal = '';
     }
 
-    // printNote() {
-    //     this.af.database.list('/notes', { preserveSnapshot: true})
-    //     .subscribe(snapshot =>{
-    //             snapshot.forEach(snapshot =>{
-    //             console.log(snapshot.key);
-    //             return snapshot.key;
-    //             });
-    //     })
-    // }
-
     onDrag(note: Note) {
-        console.log();
         this.rect = document.getElementById('note').getBoundingClientRect();
         this.x = this.rect.left;
         this.y = this.rect.top;
         note.x = this.x;
         note.y = this.y;
-        this.myNoteList.update(note.key.toString(), note);
+         setTimeout((_) => {
+                this.myNoteList.update(note.key.toString(), note);
+        }, 5000);
         if (this.debug) {// Debug
             setTimeout(() => {
                 console.log(' realXY:', this.x, this.y);
             }, 100);
         }
-        //this.myNoteList.push({ desc: note.desc, bgcolor: note.bgcolor, x: note.x , y: note.y }); // this will update coordinates with new ID everytime
-        //this.printNote();
     }
 
     onPress(desc: string) {
         this.randomNumber = Math.floor(Math.random() * this.colorlist.length);
         this.rcolor = this.colorlist[this.randomNumber];
+        this.rect = document.getElementById('note').getBoundingClientRect();
         if (desc) {
-            this.x = 0;
-            this.y = 0;
+            this.x = this.rect.left;
+            this.y = this.rect.top;
             let note = new Note(desc, this.rcolor, this.x, this.y);
-            note.setKey(this.myNoteList.push(note).key);
+            note.key = this.myNoteList.push(note).key;
             this.myNoteList.update(note.key.toString(), note);
-            this.onDrag(note);
             if (this.debug) {// Debug
                 setTimeout(() => {
                     console.log('note id', document.getElementById('note').getBoundingClientRect());
-
                 }, 1000);
                 console.log(JSON.stringify(desc));
-
             }
         }
     }
