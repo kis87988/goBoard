@@ -55,6 +55,10 @@ export class HomePageComponent implements AfterViewChecked, OnDestroy {
 
     @ViewChild('scrollMe') private myScrollContainer: ElementRef;
 
+    debugGetter() {
+        this.debug;
+    }
+
     toggleDark() {
         if (this.dark)  {
             document.getElementById('bodyContent').className = "lightMode";
