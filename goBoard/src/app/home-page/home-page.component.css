@@ -1,5 +1,32 @@
+.darkMode {
+    filter: invert(100%);
+    background-color: #696969;
+}
+
+.lightMode {
+    filter: invert(0%);
+    background-color: #f6f6f6;
+}
+
+#bodyContent {
+    position: absolute;
+    top: 75px;
+    z-index: -1;
+}
+
 .h1 {
     text-align: center;
+}
+
+.sprintTab {
+    display: table-row;
+    position: absolute;
+    top: 12px;
+    right: 8px;
+}
+
+.headerHr {
+    width: 100%;
 }
 
 .montFont {
@@ -9,6 +36,7 @@
 .cursiveFont {
     font-family: 'Cedarville Cursive', cursive;
     font-size: 36px;
+    position: relative;
 }
 
 .outer {
@@ -90,7 +118,7 @@ form {
   }
   100% {
     margin-left: 0px;
-  } 
+  }
 }
 
 .note-animation {
@@ -105,7 +133,7 @@ form {
   100% {
 
     margin-top: 0px;
-  } 
+  }
 }
 
 .top-animation {
@@ -162,8 +190,8 @@ form {
 
 .background {
     background-image: url('/src/images/whiteboard.jpg');
-    width: 1000px;
-    height: 500px;
+    width: 1410px;
+    height: 705px;
     background-size: 100% 100%;
     border: 1px solid lightgray;
     background-repeat: no-repeat;
