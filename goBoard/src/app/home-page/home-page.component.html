@@ -14,11 +14,11 @@
     </div>
 </div>
 
-<div *ngIf="!dark" style="position:aboslute; top: 0; right: 0; float: right" (click)="toggleDark()">
+<div *ngIf="!dark" style="top: 0; right: 0; float: right" (click)="toggleDark()">
     <img src="./src/images/moon.png" style="border: none; width: 25px; height: 25px">
 </div>
 
-<div *ngIf="dark" style="position:aboslute; top: 0; right: 0; float: right" (click)="toggleDark()">
+<div *ngIf="dark" style="top: 0; right: 0; float: right" (click)="toggleDark()">
     <img src="./src/images/sun.png" style="border: none; width: 25px; height: 25px">
 </div>
 
@@ -40,13 +40,13 @@
             <button class="button" (click)="onPress(note.value); note.value=''">Create!</button>
         </form>
     </div>
-    <div class="outer montFont" [ng2-draggable]="true" *ngFor="let n of myNoteList | async">
-        <div id="note" (click)="onDrag(n)" [style.background-color]="n.bgcolor" class="notePos note-animation notePosNext">
+    <div class="outer montFont" [ng2-draggable]="true" *ngFor="let n of noteArray" [style.left]="n.x" [style.top]="n.y">
+        <div class="note" [id]="n.key" (click)="onDrag(n)" [style.background-color]="n.bgcolor" class="notePos note-animation notePosNext">
             <button class="delete" (click)="removeNote(n)">X</button>
              <p style="font-size: 13px" contenteditable="true" >{{n.desc}}</p>
         </div>
     </div>
-    
+
 
 <div class = 'background'>
     <div *ngIf="chatIsHidden">

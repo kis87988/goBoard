@@ -6,27 +6,25 @@ import { Router } from '@angular/router';
 import { AngularFireModule } from 'angularfire2';
 import { AngularFireDatabaseModule, AngularFireDatabase, FirebaseListObservable } from 'angularfire2/database';
 import { AppComponent } from '../app.component';
-
 @Component({
     selector: 'app-home-page',
     templateUrl: './home-page.component.html',
     styleUrls: ['./home-page.component.css'],
 })
-
 export class HomePageComponent implements AfterViewChecked, OnDestroy {
 
     colorlist = ['#FFCDD2', '#F8BBD0', '#E1BEE7', '#D1C4E9', '#C5CAE9', '#BBDEFB',
         '#B2EBF2', '#B2DFDB', '#C8E6C9', '#F0F4C3', '#FFECB3', '#FFE0B2', '#FFCCBC'];
     randomNumber;
     rcolor;
-    private debug = false;        // debug switch
+    private debug = true;        // debug switch
     private x: number;
     private y: number;
     private rect: any;
 
-    myNoteList:FirebaseListObservable<Note[]>;
+    myNoteList: FirebaseListObservable<Note[]>;
     items: FirebaseListObservable<any>;
-    noteArray:any[];
+    noteArray = new Array;
     name: string;
     email: string;
     userID: string;
@@ -41,11 +39,18 @@ export class HomePageComponent implements AfterViewChecked, OnDestroy {
         private router: Router,
         private _renderer: Renderer,
         private _el: ElementRef) {
-            this.name = ac.user_displayName;
-            this.email = ac.user_email;
-            this.userID = ac.user_ID;
-            this.items = af.list('/messages');
-            this.myNoteList = af.list('users/' + this.userID.toString() + '/notes');
+        this.name = ac.user_displayName;
+        this.email = ac.user_email;
+        this.userID = ac.user_ID;
+        this.items = af.list('/messages');
+        this.myNoteList = af.list('users/' + this.userID.toString() + '/notes');
+
+        let temp = this.myNoteList.subscribe(data =>{
+            for(let n of data){
+                this.noteArray.push(n);
+            }
+        temp.unsubscribe();
+        })
     }
 
     @ViewChild('scrollMe') private myScrollContainer: ElementRef;
@@ -88,19 +93,17 @@ export class HomePageComponent implements AfterViewChecked, OnDestroy {
     }
 
     onDrag(note: Note) {
-        this.rect = document.getElementById('note').getBoundingClientRect();
+        this.rect = document.getElementById(note.key).getBoundingClientRect();
         this.x = this.rect.left;
         this.y = this.rect.top;
-        note.x = this.x;
-        note.y = this.y;
-         setTimeout((_) => {
-                this.myNoteList.update(note.key.toString(), note);
-        }, 5000);
-        if (this.debug) {// Debug
-            setTimeout(() => {
-                console.log(' realXY:', this.x, this.y);
-            }, 100);
-        }
+        note.x = (this.x - 10) + "px";
+        note.y = (this.y - 230) + "px";
+        this.myNoteList.update(note.key.toString(), note);
+        // if (this.debug) {// Debug
+        //     setTimeout(() => {
+        //         console.log(' realXY:', this.x, this.y);
+        //     }, 100);
+        // }
     }
 
     onPress(desc: string) {
@@ -111,6 +114,7 @@ export class HomePageComponent implements AfterViewChecked, OnDestroy {
             this.y = 0;
             let note = new Note(desc, this.rcolor, this.x, this.y);
             note.key = this.myNoteList.push(note).key;
+            this.noteArray.push(note);
             this.myNoteList.update(note.key.toString(), note);
             if (this.debug) {// Debug
                 console.log('inside onPress');
@@ -124,6 +128,7 @@ export class HomePageComponent implements AfterViewChecked, OnDestroy {
 
     removeNote(note: Note) {
         this.myNoteList.remove(note.key);
+        this.noteArray.splice(this.noteArray.indexOf(note), 1);
     }
 
     ngOnInit(){
