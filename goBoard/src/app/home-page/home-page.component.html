@@ -40,7 +40,7 @@
             <button class="button" (click)="onPress(note.value); note.value=''">Create!</button>
         </form>
     </div>
-    <div class="outer montFont" [ng2-draggable]="true" *ngFor="let n of myNoteList | async">
+    <div class="outer montFont" [ng2-draggable]="true" *ngFor="let n of myNoteList|async">
         <div id="note" (click)="onDrag(n)" [style.background-color]="n.bgcolor" class="notePos note-animation notePosNext">
             <button class="delete" (click)="removeNote(n)">X</button>
              <p style="font-size: 13px" contenteditable="true" >{{n.desc}}</p>
