@@ -42,7 +42,12 @@
     </div>
     <div class="outer montFont" [ng2-draggable]="true" *ngFor="let n of noteArray" [style.left]="n.x" [style.top]="n.y">
         <div class="note" [id]="n.key" (click)="onDrag(n)" [style.background-color]="n.bgcolor" class="notePos note-animation notePosNext">
-            <button class="delete" (click)="removeNote(n)">X</button>
+            <button class="delete" (click)="removeNote(n)">
+                <img src="./src/images/letter-x.png" style="border: none; width: 10px; height: 10px">
+            </button>
+            <button class="update" (click)="updateNote(n)">
+                <img src="./src/images/letter-u.png" style="border: none; width: 10px; height: 10px">
+            </button>
              <p style="font-size: 13px" contenteditable="true" >{{n.desc}}</p>
         </div>
     </div>
