@@ -143,6 +143,14 @@ form {
   animation: topAnimation 0.8s;
 }
 
+.update {
+    float: right;
+    border: none;
+    color: blue;
+    background: rgba(0,0,0,0);
+    text-shadow: 1px 1px #132749;
+}
+
 .delete {
     float: right;
     border: none;

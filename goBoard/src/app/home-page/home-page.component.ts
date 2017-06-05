@@ -126,6 +126,11 @@ export class HomePageComponent implements AfterViewChecked, OnDestroy {
         }
     }
 
+    updateNote(note: Note) {
+        note.desc = document.getElementById(note.key).innerText
+        this.myNoteList.update(note.key.toString(), note);
+    }
+
     removeNote(note: Note) {
         this.myNoteList.remove(note.key);
         this.noteArray.splice(this.noteArray.indexOf(note), 1);
