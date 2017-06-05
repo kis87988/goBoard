@@ -14,22 +14,23 @@ import { AppComponent } from '../app.component';
 })
 
 export class HomePageComponent implements AfterViewChecked, OnDestroy {
+
     colorlist = ['#FFCDD2', '#F8BBD0', '#E1BEE7', '#D1C4E9', '#C5CAE9', '#BBDEFB',
         '#B2EBF2', '#B2DFDB', '#C8E6C9', '#F0F4C3', '#FFECB3', '#FFE0B2', '#FFCCBC'];
     randomNumber;
     rcolor;
-    private debug = true;        // debug switch
+    private debug = false;        // debug switch
     private x: number;
     private y: number;
     private rect: any;
 
-    myNoteList: FirebaseListObservable<Note[]>;
+    myNoteList:FirebaseListObservable<Note[]>;
     items: FirebaseListObservable<any>;
+    noteArray:any[];
     name: string;
     email: string;
     userID: string;
     msgVal: string;
-
     private chatIsHidden = false;
 
     constructor(
@@ -39,11 +40,11 @@ export class HomePageComponent implements AfterViewChecked, OnDestroy {
         private router: Router,
         private _renderer: Renderer,
         private _el: ElementRef) {
-        this.name = ac.user_displayName;
-        this.email = ac.user_email;
-        this.userID = ac.user_ID;
-        this.items = af.list('/messages');
-        this.myNoteList = af.list('users/' + this.userID.toString() + '/notes');
+            this.name = ac.user_displayName;
+            this.email = ac.user_email;
+            this.userID = ac.user_ID;
+            this.items = af.list('/messages');
+            this.myNoteList = af.list('users/' + this.userID.toString() + '/notes');
     }
 
     @ViewChild('scrollMe') private myScrollContainer: ElementRef;
@@ -64,7 +65,7 @@ export class HomePageComponent implements AfterViewChecked, OnDestroy {
     }
 
     sendNoteToFirebase(note: Note) {
-        this.myNoteList.push(note);
+        this.myNoteList.push({ desc: note.desc, bgcolor: note.bgcolor, x: note.x , y: note.y });
     }
 
     sendMessage(theirMessage: string) {
@@ -94,14 +95,14 @@ export class HomePageComponent implements AfterViewChecked, OnDestroy {
     onPress(desc: string) {
         this.randomNumber = Math.floor(Math.random() * this.colorlist.length);
         this.rcolor = this.colorlist[this.randomNumber];
-        this.rect = document.getElementById('note').getBoundingClientRect();
         if (desc) {
-            this.x = this.rect.left;
-            this.y = this.rect.top;
+            this.x = 0;
+            this.y = 0;
             let note = new Note(desc, this.rcolor, this.x, this.y);
             note.key = this.myNoteList.push(note).key;
             this.myNoteList.update(note.key.toString(), note);
             if (this.debug) {// Debug
+                console.log('inside onPress');
                 setTimeout(() => {
                     console.log('note id', document.getElementById('note').getBoundingClientRect());
                 }, 1000);
@@ -121,3 +122,22 @@ export class HomePageComponent implements AfterViewChecked, OnDestroy {
     }
 
 }
+
+//  onPress(desc: string) {
+//         this.randomNumber = Math.floor(Math.random() * this.colorlist.length);
+//         this.rcolor = this.colorlist[this.randomNumber];
+//         this.rect = document.getElementById('note').getBoundingClientRect();
+//         if (desc) {
+//             this.x = this.rect.left;
+//             this.y = this.rect.top;
+//             let note = new Note(desc, this.rcolor, this.x, this.y);
+//             note.key = this.myNoteList.push(note).key;
+//             this.myNoteList.update(note.key.toString(), note);
+//             if (this.debug) {// Debug
+//                 setTimeout(() => {
+//                     console.log('note id', document.getElementById('note').getBoundingClientRect());
+//                 }, 1000);
+//                 console.log(JSON.stringify(desc));
+//             }
+//         }
+//     }
