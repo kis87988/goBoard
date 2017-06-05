@@ -4,14 +4,18 @@
 </div>
 
 <div class="sprintTab">
-    <select name="sprints">
+    <select id="sprints" ng-selected="curSprint">
+        <option *ngFor="let s of sprintArray" [value]="s">{{s}}</option>
     </select>
-    <div style="float: right; padding: 0px 1px">
-        <img src="./src/images/plus.png" style="border: none; width: 16px; height: 16px">
-    </div>
-    <div style="float: right; padding: 0px 1px">
+    <div style="float: left; padding: 0px 1px" (click)="delSprint(curSprint)">
         <img src="./src/images/minus.png" style="border: none; width: 16px; height: 16px">
     </div>
+    <form>
+        <input placeholder="" #newSprint (blur)="addSprint(newSprint.value); newSprint.value=''">
+        <div style="float: right; padding: 0px 1px" (click)="addSprint(newSprint.value); newSprint.value=''">
+            <img src="./src/images/plus.png" style="border: none; width: 16px; height: 16px">
+        </div>
+    </form>
 </div>
 
 <div *ngIf="!dark" style="top: 0; right: 0; float: right" (click)="toggleDark()">

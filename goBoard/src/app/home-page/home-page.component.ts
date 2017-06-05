@@ -25,12 +25,14 @@ export class HomePageComponent implements AfterViewChecked, OnDestroy {
     myNoteList: FirebaseListObservable<Note[]>;
     items: FirebaseListObservable<any>;
     noteArray = new Array;
+    sprintArray = new Array;
     name: string;
     email: string;
     userID: string;
     msgVal: string;
     private chatIsHidden = false;
     private dark = false;
+    private sprint = "";
 
     constructor(
         public af: AngularFireDatabase,
@@ -54,6 +56,14 @@ export class HomePageComponent implements AfterViewChecked, OnDestroy {
     }
 
     @ViewChild('scrollMe') private myScrollContainer: ElementRef;
+
+    addSprint(newSprint: string) {
+        this.sprintArray.push(newSprint);
+    }
+
+    delSprint(curSprint: string) {
+        this.sprintArray.splice(this.sprintArray.indexOf(curSprint), 1);
+    }
 
     toggleDark() {
         if (this.dark)  {
@@ -81,7 +91,7 @@ export class HomePageComponent implements AfterViewChecked, OnDestroy {
     }
 
     sendNoteToFirebase(note: Note) {
-        this.myNoteList.push({ desc: note.desc, bgcolor: note.bgcolor, x: note.x , y: note.y });
+        this.myNoteList.push({ desc: note.desc, bgcolor: note.bgcolor, x: note.x , y: note.y, sprint: note.sprint });
     }
 
     sendMessage(theirMessage: string) {
@@ -112,7 +122,7 @@ export class HomePageComponent implements AfterViewChecked, OnDestroy {
         if (desc) {
             this.x = 0;
             this.y = 0;
-            let note = new Note(desc, this.rcolor, this.x, this.y);
+            let note = new Note(desc, this.rcolor, this.x, this.y, this.sprint);
             note.key = this.myNoteList.push(note).key;
             this.noteArray.push(note);
             this.myNoteList.update(note.key.toString(), note);
