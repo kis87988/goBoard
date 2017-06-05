@@ -21,10 +21,10 @@ export class HomePageComponent implements AfterViewChecked, OnDestroy {
     private x: number;
     private y: number;
     private rect: any;
-    
-    myNoteList:FirebaseListObservable<Note[]>;
+
+    myNoteList: FirebaseListObservable<Note[]>;
     items: FirebaseListObservable<any>;
-    noteArray:any[];
+    noteArray = new Array;
     name: string;
     email: string;
     userID: string;
@@ -44,14 +44,12 @@ export class HomePageComponent implements AfterViewChecked, OnDestroy {
         this.userID = ac.user_ID;
         this.items = af.list('/messages');
         this.myNoteList = af.list('users/' + this.userID.toString() + '/notes');
+
         let temp = this.myNoteList.subscribe(data =>{
-            let myNodeList2:Note[]
             for(let n of data){
-                let a = n
-                console.log(a)
+                this.noteArray.push(n);
             }
-            temp.unsubscribe();
-            console.log(myNodeList2);
+        temp.unsubscribe();
         })
     }
 
@@ -94,18 +92,18 @@ export class HomePageComponent implements AfterViewChecked, OnDestroy {
         this.msgVal = '';
     }
 
-    async onDrag(note: Note) {
-        this.rect = document.getElementById('note').getBoundingClientRect();
+    onDrag(note: Note) {
+        this.rect = document.getElementById(note.key).getBoundingClientRect();
         this.x = this.rect.left;
         this.y = this.rect.top;
-        note.x = this.x;
-        note.y = this.y;
-        await this.myNoteList.update(note.key.toString(), note);
-        if (this.debug) {// Debug
-            setTimeout(() => {
-                console.log(' realXY:', this.x, this.y);
-            }, 100);
-        }
+        note.x = (this.x - 10) + "px";
+        note.y = (this.y - 230) + "px";
+        this.myNoteList.update(note.key.toString(), note);
+        // if (this.debug) {// Debug
+        //     setTimeout(() => {
+        //         console.log(' realXY:', this.x, this.y);
+        //     }, 100);
+        // }
     }
 
     onPress(desc: string) {
@@ -116,6 +114,7 @@ export class HomePageComponent implements AfterViewChecked, OnDestroy {
             this.y = 0;
             let note = new Note(desc, this.rcolor, this.x, this.y);
             note.key = this.myNoteList.push(note).key;
+            this.noteArray.push(note);
             this.myNoteList.update(note.key.toString(), note);
             if (this.debug) {// Debug
                 console.log('inside onPress');
@@ -129,6 +128,7 @@ export class HomePageComponent implements AfterViewChecked, OnDestroy {
 
     removeNote(note: Note) {
         this.myNoteList.remove(note.key);
+        this.noteArray.splice(this.noteArray.indexOf(note), 1);
     }
 
     ngOnInit(){
