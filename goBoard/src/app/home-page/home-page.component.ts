@@ -33,6 +33,7 @@ export class HomePageComponent implements AfterViewChecked, OnDestroy {
     msgVal: string;
 
     private chatIsHidden = false;
+    private dark = false;
 
     constructor(
         public af: AngularFireDatabase,
@@ -49,6 +50,16 @@ export class HomePageComponent implements AfterViewChecked, OnDestroy {
     }
 
     @ViewChild('scrollMe') private myScrollContainer: ElementRef;
+
+    toggleDark() {
+        if (this.dark)  {
+            document.getElementById('bodyContent').className = "lightMode";
+        }
+        else {
+            document.getElementById('bodyContent').className = "darkMode";
+        }
+        this.dark = !this.dark;
+    }
 
     ngAfterViewChecked() {
         this.scrollToBottom();
