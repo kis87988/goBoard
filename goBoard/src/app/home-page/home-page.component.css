@@ -2,6 +2,13 @@
     text-align: center;
 }
 
+.sprintTab {
+    display: table-row;
+    position: absolute;
+    top: 12px;
+    right: 8px;
+}
+
 .montFont {
     font-family: 'Montserrat', sans-serif;
 }
@@ -90,7 +97,7 @@ form {
   }
   100% {
     margin-left: 0px;
-  } 
+  }
 }
 
 .note-animation {
@@ -105,7 +112,7 @@ form {
   100% {
 
     margin-top: 0px;
-  } 
+  }
 }
 
 .top-animation {
