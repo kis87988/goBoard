@@ -1,15 +1,10 @@
 # goBoard
 This is a goBoard project:
+It is a scurm project board that we can use for plan.
 
 Requare: must instill npm, nodejs
-
 Start the project:
-	1) first time ONLY, do "npm install -g @angular/cli"
-	2) go to goBoard folder
-	3) npm install
-	4) npm start
-
-For websocket server:
-	1) go to server folder under goBoard folder
-	2) npm install
-	3) node server.js &
+1) FIRST TIME ONLY, do "npm install -g @angular/cli"
+2) go to goBoard folder
+3) npm install
+4) npm start
