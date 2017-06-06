@@ -56,7 +56,7 @@ export class HomePageComponent implements AfterViewChecked, OnDestroy {
     @ViewChild('scrollMe') private myScrollContainer: ElementRef;
     addSprint(newSprint: string) {
         const keyValue = this.sprintArray.push({key: '', name: newSprint}).key;
-        this.sprintArray.update(keyValue, {key: keyValue, name: newSprint});
+        this.sprintArray.update(keyValue, {key: keyValue});
         this.sprint = newSprint;
         this.myNoteList = this.af.list('users/' + this.userID.toString() + '/notes' + `/${this.sprint}`);
         this.noteArray = new Array;
@@ -133,6 +133,18 @@ export class HomePageComponent implements AfterViewChecked, OnDestroy {
     onPress(desc: string) {
         const randomNumber: number = Math.floor(Math.random() * this.colorlist.length);
         const rcolor: string = this.colorlist[randomNumber];
+        let defaultExist = false;
+        this.sprintArray.forEach(async element => {
+            for (const e of element){
+                if (e.name === 'default') {
+                    defaultExist = true;
+                }
+            }
+        });
+        if(!defaultExist){
+            const keyValue = this.sprintArray.push({key: '', name: 'default'}).key;
+            this.sprintArray.update(keyValue, {key: keyValue});
+        }
         if (desc) {
             this.x = 0;
             this.y = 0;
