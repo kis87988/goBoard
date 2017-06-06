@@ -45,21 +45,14 @@ export class HomePageComponent implements AfterViewChecked, OnDestroy {
             this.userID = ac.user_ID;
             this.items = af.list('/messages');
             this.sprintArray = af.list('users/' + this.userID.toString() + '/springArray');
-            this.myNoteList = this.af.list('users/' + this.userID.toString() + '/notes' + `/${this.sprint}`);
-            const dbToList = this.myNoteList.subscribe(data => {
-                for (const n of data){
-                    this.noteArray.push(n);
-                }
-                dbToList.unsubscribe();
-            });
+            this.switchNoteList();
     }
     @ViewChild('scrollMe') private myScrollContainer: ElementRef;
     addSprint(newSprint: string) {
         const keyValue = this.sprintArray.push({key: '', name: newSprint}).key;
         this.sprintArray.update(keyValue, {key: keyValue});
         this.sprint = newSprint;
-        this.myNoteList = this.af.list('users/' + this.userID.toString() + '/notes' + `/${this.sprint}`);
-        this.noteArray = new Array;
+        this.switchNoteList();
     }
     delSprint(name: string) {
         if (name === 'default') { return; }
@@ -72,25 +65,13 @@ export class HomePageComponent implements AfterViewChecked, OnDestroy {
             }
         });
         this.sprintArray.remove(key);
+        this.myNoteList.remove();
         this.sprint = 'default';
-        this.noteArray = new Array;
-        const dbToList = this.myNoteList.subscribe(data => {
-            for (const n of data){
-                this.noteArray.push(n);
-            }
-            dbToList.unsubscribe();
-        });
+        this.switchNoteList();
     }
     onChange(newValue) {
         this.sprint = newValue;
-        this.myNoteList = this.af.list('users/' + this.userID.toString() + '/notes' + `/${this.sprint}`);
-        this.noteArray = new Array;
-        const dbToList = this.myNoteList.subscribe(data => {
-            for (const n of data){
-                this.noteArray.push(n);
-            }
-            dbToList.unsubscribe();
-        });
+        this.switchNoteList();
     }
     toggleDark() {
         if (this.dark)  {
@@ -141,7 +122,7 @@ export class HomePageComponent implements AfterViewChecked, OnDestroy {
                 }
             }
         });
-        if(!defaultExist){
+        if (!defaultExist) {
             const keyValue = this.sprintArray.push({key: '', name: 'default'}).key;
             this.sprintArray.update(keyValue, {key: keyValue});
         }
@@ -175,7 +156,16 @@ export class HomePageComponent implements AfterViewChecked, OnDestroy {
 
     ngOnDestroy() {
     }
-
+    private switchNoteList() {
+            this.myNoteList = this.af.list('users/' + this.userID.toString() + '/notes' + `/${this.sprint}`);
+            this.noteArray = new Array;
+            const dbToList = this.myNoteList.subscribe(data => {
+                for (const n of data){
+                    this.noteArray.push(n);
+                }
+                dbToList.unsubscribe();
+            });
+    }
 }
 function delay(ms: number) {
     return new Promise<void>(function(resolve) {
