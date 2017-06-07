@@ -15,18 +15,18 @@ import { LoginPageComponent } from './login-page/login-page.component';
 import { HomePageComponent } from './home-page/home-page.component';
 
 const firebaseConfig = {
-  apiKey: "AIzaSyBDaugZSSWbTHR0cya23ci_McJOONHyggU",
-  authDomain: "goboard-9da40.firebaseapp.com",
-  databaseURL: "https://goboard-9da40.firebaseio.com",
-  projectId: "goboard-9da40",
-  storageBucket: "goboard-9da40.appspot.com",
-  messagingSenderId: "723651337507"
+  apiKey: 'AIzaSyBDaugZSSWbTHR0cya23ci_McJOONHyggU',
+  authDomain: 'goboard-9da40.firebaseapp.com',
+  databaseURL: 'https://goboard-9da40.firebaseio.com',
+  projectId: 'goboard-9da40',
+  storageBucket: 'goboard-9da40.appspot.com',
+  messagingSenderId: '723651337507'
 };
 
 const routes: Routes = [
   {path: '', component: HomePageComponent},
   {path: 'login', component: LoginPageComponent}
-]
+];
 
 @NgModule({
   declarations: [
