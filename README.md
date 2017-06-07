@@ -8,3 +8,9 @@ Start the project:
 2) go to goBoard folder
 3) npm install
 4) npm start
+
+Unit test:
+1) go to goBoard folder
+2) ng test
+note: Tests will execute after a build is executed via Karma, and it will automatically watch your files for changes
+
