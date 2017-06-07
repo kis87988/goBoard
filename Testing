@@ -1,0 +1,18 @@
+# Classes under Testing
+- home-page.component
+- login-page.component
+- auth.service
+- app.component
+
+## home-page.component: functionality of our web application
+- tested for faulty initialization
+
+## login-page.component: functionality for simple login page
+- tested for faulty initialization
+
+## auth.service: script to handle gmail authentication
+- tested for faulty initialization
+
+## app.component: base of our application that communicates between components and services
+- tested for faulty initialization
+- tests if html title is generated correctly
